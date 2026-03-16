@@ -55,6 +55,9 @@ class BluetoothServer(
                 ))
 
                 startReading(socket)
+            } catch (e: SecurityException) {
+                // BLUETOOTH_CONNECT permission not granted
+                _connectionState.value = ConnectionState.ERROR
             } catch (e: IOException) {
                 if (_connectionState.value != ConnectionState.DISCONNECTED) {
                     _connectionState.value = ConnectionState.ERROR

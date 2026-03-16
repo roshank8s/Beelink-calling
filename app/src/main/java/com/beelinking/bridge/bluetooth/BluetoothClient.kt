@@ -60,6 +60,10 @@ class BluetoothClient(
                 ))
 
                 startReading()
+            } catch (e: SecurityException) {
+                _connectionState.value = ConnectionState.ERROR
+                try { socket?.close() } catch (_: Exception) {}
+                socket = null
             } catch (e: IOException) {
                 _connectionState.value = ConnectionState.ERROR
                 try { socket?.close() } catch (_: IOException) {}

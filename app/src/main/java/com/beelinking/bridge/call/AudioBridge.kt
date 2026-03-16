@@ -38,15 +38,26 @@ class AudioBridge(private val scope: CoroutineScope) {
     fun startCapture() {
         if (captureJob?.isActive == true) return
 
-        audioRecord = AudioRecord(
-            MediaRecorder.AudioSource.VOICE_COMMUNICATION,
-            SAMPLE_RATE,
-            CHANNEL_CONFIG_IN,
-            AUDIO_FORMAT,
-            minRecordBuffer * BUFFER_SIZE_FACTOR
-        )
+        try {
+            audioRecord = AudioRecord(
+                MediaRecorder.AudioSource.VOICE_COMMUNICATION,
+                SAMPLE_RATE,
+                CHANNEL_CONFIG_IN,
+                AUDIO_FORMAT,
+                minRecordBuffer * BUFFER_SIZE_FACTOR
+            )
 
-        audioRecord?.startRecording()
+            if (audioRecord?.state != AudioRecord.STATE_INITIALIZED) {
+                audioRecord?.release()
+                audioRecord = null
+                return
+            }
+
+            audioRecord?.startRecording()
+        } catch (e: Exception) {
+            audioRecord = null
+            return
+        }
 
         captureJob = scope.launch(Dispatchers.IO) {
             val buffer = ByteArray(minRecordBuffer)
@@ -63,26 +74,30 @@ class AudioBridge(private val scope: CoroutineScope) {
     fun startPlayback() {
         if (playbackActive) return
 
-        audioTrack = AudioTrack.Builder()
-            .setAudioAttributes(
-                AudioAttributes.Builder()
-                    .setUsage(AudioAttributes.USAGE_VOICE_COMMUNICATION)
-                    .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
-                    .build()
-            )
-            .setAudioFormat(
-                AudioFormat.Builder()
-                    .setSampleRate(SAMPLE_RATE)
-                    .setChannelMask(CHANNEL_CONFIG_OUT)
-                    .setEncoding(AUDIO_FORMAT)
-                    .build()
-            )
-            .setBufferSizeInBytes(minPlayBuffer * BUFFER_SIZE_FACTOR)
-            .setTransferMode(AudioTrack.MODE_STREAM)
-            .build()
+        try {
+            audioTrack = AudioTrack.Builder()
+                .setAudioAttributes(
+                    AudioAttributes.Builder()
+                        .setUsage(AudioAttributes.USAGE_VOICE_COMMUNICATION)
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                        .build()
+                )
+                .setAudioFormat(
+                    AudioFormat.Builder()
+                        .setSampleRate(SAMPLE_RATE)
+                        .setChannelMask(CHANNEL_CONFIG_OUT)
+                        .setEncoding(AUDIO_FORMAT)
+                        .build()
+                )
+                .setBufferSizeInBytes(minPlayBuffer * BUFFER_SIZE_FACTOR)
+                .setTransferMode(AudioTrack.MODE_STREAM)
+                .build()
 
-        audioTrack?.play()
-        playbackActive = true
+            audioTrack?.play()
+            playbackActive = true
+        } catch (e: Exception) {
+            audioTrack = null
+        }
     }
 
     /** Feed received PCM data to the speaker */

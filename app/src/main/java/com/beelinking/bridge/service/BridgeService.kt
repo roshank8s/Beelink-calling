@@ -123,7 +123,11 @@ class BridgeService : Service() {
     }
 
     private fun setupSimDevice(adapter: BluetoothAdapter) {
-        callManager = CallManager(this)
+        try {
+            callManager = CallManager(this)
+        } catch (e: Exception) {
+            // TelecomManager unavailable - call features won't work but don't crash
+        }
         smsManager = SmsManager(this)
 
         btServer = BluetoothServer(adapter, serviceScope).also { server ->
