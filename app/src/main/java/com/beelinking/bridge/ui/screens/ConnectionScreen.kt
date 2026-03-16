@@ -164,6 +164,7 @@ private fun ConnectionStatusBanner(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("MissingPermission")
 @Composable
 private fun DeviceCard(

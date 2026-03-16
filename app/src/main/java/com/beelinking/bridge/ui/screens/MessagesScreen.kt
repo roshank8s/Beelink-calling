@@ -119,6 +119,7 @@ fun MessagesScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ConversationItem(
     conversation: SmsConversation,
@@ -202,7 +203,7 @@ private fun ConversationView(
             Text(phoneNumber, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleMedium)
         }
 
-        HorizontalDivider()
+        Divider()
 
         // Messages
         LazyColumn(
@@ -218,7 +219,7 @@ private fun ConversationView(
             }
         }
 
-        HorizontalDivider()
+        Divider()
 
         // Input
         Row(

@@ -71,6 +71,7 @@ fun RoleSelectionScreen(onRoleSelected: (DeviceRole) -> Unit) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun RoleCard(
     title: String,
