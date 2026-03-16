@@ -91,9 +91,13 @@ class BridgeViewModel(application: Application) : AndroidViewModel(application) 
 
     @android.annotation.SuppressLint("MissingPermission")
     fun loadPairedDevices() {
-        val btManager = getApplication<Application>().getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
-        val adapter = btManager.adapter ?: return
-        _pairedDevices.value = adapter.bondedDevices?.toList() ?: emptyList()
+        try {
+            val btManager = getApplication<Application>().getSystemService(Context.BLUETOOTH_SERVICE) as? BluetoothManager ?: return
+            val adapter = btManager.adapter ?: return
+            _pairedDevices.value = adapter.bondedDevices?.toList() ?: emptyList()
+        } catch (e: SecurityException) {
+            _pairedDevices.value = emptyList()
+        }
     }
 
     fun connectToDevice(device: BluetoothDevice) {

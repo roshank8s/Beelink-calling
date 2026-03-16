@@ -38,7 +38,11 @@ class BluetoothClient(
 
     /** Get already paired devices */
     fun getPairedDevices(): List<BluetoothDevice> {
-        return adapter.bondedDevices?.toList() ?: emptyList()
+        return try {
+            adapter.bondedDevices?.toList() ?: emptyList()
+        } catch (e: SecurityException) {
+            emptyList()
+        }
     }
 
     /** Connect to a specific SIM device */
