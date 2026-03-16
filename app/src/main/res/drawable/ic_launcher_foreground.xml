@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Phone icon -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M42.46,54.54c5.07,5.07 11.02,9.09 17.53,11.72l5.85,-5.85c0.72,-0.72 1.78,-0.93 2.7,-0.62c2.97,0.98 6.17,1.51 9.46,1.51c1.38,0 2.5,1.12 2.5,2.5v9.2c0,1.38 -1.12,2.5 -2.5,2.5C50.57,75.5 32.5,57.43 32.5,35.5c0,-1.38 1.12,-2.5 2.5,-2.5h9.2c1.38,0 2.5,1.12 2.5,2.5c0,3.29 0.53,6.49 1.51,9.46c0.31,0.92 0.1,1.98 -0.62,2.7l-5.13,5.38z" />
+
+    <!-- Bluetooth symbol -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M65,36l-8,-8v6.5L52,29.5l-2,2l6.5,6.5L50,44.5l2,2l5,-5V48l8,-8l-6.5,-6.5L65,36zM59,32.5l2.5,2.5L59,37.5V32.5zM59,40.5l2.5,2.5L59,45.5V40.5z"
+        android:strokeWidth="0" />
+</vector>
