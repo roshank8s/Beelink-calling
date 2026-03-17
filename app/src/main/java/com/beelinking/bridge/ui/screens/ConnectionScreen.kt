@@ -172,6 +172,13 @@ private fun DeviceCard(
     enabled: Boolean,
     onClick: () -> Unit
 ) {
+    val deviceName = remember(device) {
+        try { device.name ?: "Unknown Device" } catch (_: SecurityException) { "Unknown Device" }
+    }
+    val deviceAddress = remember(device) {
+        try { device.address ?: "Unknown" } catch (_: SecurityException) { "Unknown" }
+    }
+
     Card(
         onClick = onClick,
         enabled = enabled,
@@ -190,11 +197,11 @@ private fun DeviceCard(
             Spacer(modifier = Modifier.width(12.dp))
             Column {
                 Text(
-                    text = device.name ?: "Unknown Device",
+                    text = deviceName,
                     fontWeight = FontWeight.Medium
                 )
                 Text(
-                    text = device.address,
+                    text = deviceAddress,
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
